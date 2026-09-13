@@ -32,16 +32,32 @@ const read = async (functionName:any, args?: readonly unknown[]) => {
 
 export async function loadProtocol(account?: Address): Promise<ProtocolState> {
   if (!CONTRACT_ADDRESS) throw new Error('VITE_METOK_CONTRACT is not configured')
-  const [code,blockNumber,chainId,base] = await Promise.all([
-    publicClient.getCode({address:CONTRACT_ADDRESS}),
-    publicClient.getBlockNumber(),
-    publicClient.getChainId(),
-    Promise.all([
-      read('owner'),read('totalSupply'),read('VIRTUAL_MON'),read('realMonReserve'),read('curveTokenReserve'),read('circulatingSupply'),read('pendingPlayMon'),read('claimReservedToken'),read('protocolSellEscrowToken'),read('p2pSellEscrowToken'),read('p2pBuyEscrowMon'),read('protocolPriceWad'),read('entropyFee'),read('CARD_COUNT'),read('nextCurveOrderId'),read('nextCurveOrderToSettle'),read('canSettleNextCurveOrder'),read('tokenBucketsBalanced'),read('monAccountingSolvent'),read('priceChangeStats'),read('DEPLOYED_AT'),read('nextP2PSellOrderId'),read('nextP2PBuyOrderId'),read('ENTROPY'),read('ENTROPY_PROVIDER'),read('MIN_ORDER_LIFETIME'),read('MAX_ORDER_LIFETIME')
-    ])
-  ])
+  const code = await publicClient.getCode({address:CONTRACT_ADDRESS})
+  const blockNumber = await publicClient.getBlockNumber()
+  const chainId = await publicClient.getChainId()
+
+  const base:any[] = []
+  for (const functionName of [
+    'owner','totalSupply','VIRTUAL_MON','realMonReserve','curveTokenReserve',
+    'circulatingSupply','pendingPlayMon','claimReservedToken',
+    'protocolSellEscrowToken','p2pSellEscrowToken','p2pBuyEscrowMon',
+    'protocolPriceWad','entropyFee','CARD_COUNT','nextCurveOrderId',
+    'nextCurveOrderToSettle','canSettleNextCurveOrder','tokenBucketsBalanced',
+    'monAccountingSolvent','priceChangeStats','DEPLOYED_AT',
+    'nextP2PSellOrderId','nextP2PBuyOrderId','ENTROPY','ENTROPY_PROVIDER',
+    'MIN_ORDER_LIFETIME','MAX_ORDER_LIFETIME'
+  ]) {
+    base.push(await read(functionName))
+  }
+
   const [owner,totalSupply,virtualMon,realMon,curveReserve,circulating,pendingPlay,claimReserve,sellEscrow,p2pSellEscrow,p2pBuyEscrow,price,fee,cardCount,nextCurve,nextSettle,canSettle,bucketsOk,solvent,stats,deployedAt,nextP2PSell,nextP2PBuy,entropy,entropyProvider,minOrderLifetime,maxOrderLifetime] = base
-  const [balance,monBalance,credit] = account ? await Promise.all([read('balanceOf',[account]),publicClient.getBalance({address:account}),read('withdrawableMon',[account])]) : [0n,0n,0n]
+
+  let balance=0n, monBalance=0n, credit=0n
+  if(account){
+    balance = await read('balanceOf',[account])
+    monBalance = await publicClient.getBalance({address:account})
+    credit = await read('withdrawableMon',[account])
+  }
   const [changes,fullWindows,referencePrices,referenceTimestamps,sinceLaunch] = stats as [bigint[],boolean[],bigint[],bigint[],bigint]
   let head:CurveHead|undefined
   if(nextSettle<nextCurve){

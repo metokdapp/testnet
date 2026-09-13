@@ -24,7 +24,7 @@ export const CONTRACT_ADDRESS = isAddress(rawAddress) ? getAddress(rawAddress) :
 
 export const publicClient = createPublicClient({
   chain: monad,
-  transport: fallback(RPC_URLS.map((url:string)=>http(url,{timeout:8_000,retryCount:1})), { rank: true })
+  transport: fallback(RPC_URLS.map((url:string)=>http(url,{timeout:12_000,retryCount:4})), { rank: true })
 })
 
 export const ZERO = '0x0000000000000000000000000000000000000000' as const
