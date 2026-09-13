@@ -1,11 +1,11 @@
 # Deployment identity
 
-- Network: Monad Mainnet
-- Chain ID: 143 (`0x8f`)
+- Network: Monad Testnet
+- Chain ID: 10143 (`0x279f`)
 - Native currency: MON
-- METOK V4: `0xE25AaBa9CBCD0DF6e0b3659c66F1C022a4ED1cf6`
-- Default public RPC: `https://rpc.monad.xyz`
-- Explorer: `https://monadscan.com`
+- METOK: `0xd37956c44985c2154738425222376a9d63dcf0cb`
+- Default public RPC: `https://testnet-rpc.monad.xyz`
+- Explorer: `https://testnet.monadscan.com`
 
 The address above is pinned as the frontend default and can be overridden at build time with `VITE_METOK_CONTRACT`. Production should keep the pinned address unless intentionally launching a separately audited V4 deployment.
 

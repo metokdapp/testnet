@@ -35,7 +35,7 @@ async function metaMaskClient():Promise<MetaMaskClient>{
       const {createEVMClient}=await import('@metamask/connect-evm')
       const client=await createEVMClient({
         dapp:{name:'METOK',url:dappUrl()},
-        api:{supportedNetworks:{'0x8f':RPC_URLS[0]}},
+        api:{supportedNetworks:{'0x279f':RPC_URLS[0]}},
         analytics:{enabled:false},
         eventHandlers:{
           accountsChanged:(accounts:string[])=>emit('accountsChanged',accounts),
@@ -63,7 +63,7 @@ export async function restoreWallet():Promise<Address|undefined>{
 
 export async function connectWallet():Promise<Address>{
   const client=await metaMaskClient()
-  const result=await client.connect({chainIds:['0x8f']})
+  const result=await client.connect({chainIds:['0x279f']})
   activeProvider=client.getProvider()
   const account=result.accounts?.[0]
   if(!account) throw new Error('MetaMask has not granted account access.')
@@ -78,9 +78,9 @@ export async function disconnectWallet(){
 export async function ensureMonad(){
   const client=await metaMaskClient()
   await client.switchChain({
-    chainId:'0x8f',
+    chainId:'0x279f',
     chainConfiguration:{
-      chainId:'0x8f',chainName:'Monad Mainnet',
+      chainId:'0x279f',chainName:'Monad Testnet',
       nativeCurrency:{name:'Monad',symbol:'MON',decimals:18},
       rpcUrls:RPC_URLS,blockExplorerUrls:[EXPLORER_URL],
     },

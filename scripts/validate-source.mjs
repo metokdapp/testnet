@@ -5,8 +5,8 @@ const read=p=>fs.readFileSync(path.join(root,p),'utf8')
 const all=fs.readdirSync(path.join(root,'src'),{recursive:true}).filter(x=>/\.(ts|tsx)$/.test(String(x))).map(x=>read(path.join('src',String(x)))).join('\n')
 const abi=read('src/lib/abi.ts'),events=read('src/lib/events.ts'),portfolio=read('src/lib/portfolio.ts'),write=read('src/lib/write.ts'),contract=read('reference/METOK_V4.sol')
 const checks=[
- ['contract pinned',all.includes('0xE25AaBa9CBCD0DF6e0b3659c66F1C022a4ED1cf6')],
- ['chain 143',all.includes('id: 143')||all.includes('chainId!==143')],
+ ['contract pinned',all.includes('0xd37956c44985c2154738425222376a9d63dcf0cb')],
+ ['chain 10143',all.includes('id: 10143')||all.includes('chainId!==10143')],
  ['V4 source fixed supply',contract.includes('TOTAL_SUPPLY = 100_000_000_000 * WAD')],
  ['V4 source virtual MON',contract.includes('VIRTUAL_MON = 100_000 * WAD')],
  ['no approve flow',!all.includes("functionName:'approve'")&&!all.includes('functionName:"approve"')],
@@ -27,7 +27,7 @@ const checks=[
  ['RPC fallback ranking',read('src/lib/config.ts').includes('rank: true')],
  ['RPC health probe',all.includes('probeAllRpcs')],
  ['MetaMask Connect package',read('package.json').includes('@metamask/connect-evm')&&read('package.json').includes('@metamask/connect-multichain')],
- ['MetaMask Connect cross-platform client',all.includes('createEVMClient')&&all.includes("chainIds:['0x8f']")],
+ ['MetaMask Connect cross-platform client',all.includes('createEVMClient')&&all.includes("chainIds:['0x279f']")],
  ['MetaMask analytics disabled',all.includes('analytics:{enabled:false}')],
  ['MetaMask relay allowed by CSP',read('scripts/generate-security.mjs').split(/\r?\n/).some(line=>line.trim()==="const relay='wss://mm-sdk-relay.api.cx.metamask.io'")],
  ['legacy MetaMask SDK absent',!read('package.json').includes('@metamask/sdk"')],

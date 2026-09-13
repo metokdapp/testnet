@@ -15,7 +15,7 @@ async function assertWriteTarget(){
     publicClient.readContract({address:CONTRACT_ADDRESS,abi:METOK_ABI,functionName:'owner'}),
     publicClient.readContract({address:CONTRACT_ADDRESS,abi:METOK_ABI,functionName:'totalSupply'})
   ])
-  if(chainId!==143) throw new Error(`RPC chain mismatch: expected 143, got ${chainId}`)
+  if(chainId!==10143) throw new Error(`RPC chain mismatch: expected 10143, got ${chainId}`)
   if(!code||code==='0x') throw new Error('No bytecode was found at the METOK contract address.')
   if(getAddress(owner as Address)!==ZERO) throw new Error('Contract identity check failed: owner() must be zero.')
   if(supply!==EXPECTED_SUPPLY) throw new Error('Contract identity check failed: total supply is not 100B METOK.')

@@ -6,13 +6,13 @@ function parseEnv(file){
   try{return Object.fromEntries(fs.readFileSync(file,'utf8').split(/\r?\n/).map(x=>x.trim()).filter(x=>x&&!x.startsWith('#')&&x.includes('=')).map(x=>{const i=x.indexOf('=');return[x.slice(0,i),x.slice(i+1).replace(/^['"]|['"]$/g,'')]}))}catch{return{}}
 }
 const local={...parseEnv(path.join(root,'.env.example')),...parseEnv(path.join(root,'.env'))}
-const raw=process.env.VITE_RPC_URLS||process.env.VITE_RPC_URL||local.VITE_RPC_URLS||local.VITE_RPC_URL||'https://rpc.monad.xyz'
-const eventRaw=process.env.VITE_EVENT_RPC_URLS||local.VITE_EVENT_RPC_URLS||'https://rpc1.monad.xyz,https://rpc3.monad.xyz,https://rpc.monad.xyz'
+const raw=process.env.VITE_RPC_URLS||process.env.VITE_RPC_URL||local.VITE_RPC_URLS||local.VITE_RPC_URL||'https://testnet-rpc.monad.xyz'
+const eventRaw=process.env.VITE_EVENT_RPC_URLS||local.VITE_EVENT_RPC_URLS||'https://testnet-rpc.monad.xyz'
 const origins=[]
 for(const item of `${raw},${eventRaw}`.split(',').map(x=>x.trim()).filter(Boolean)){
   try{const u=new URL(item);if(u.protocol==='https:'||u.protocol==='http:')origins.push(u.origin)}catch{}
 }
-if(!origins.length)origins.push('https://rpc.monad.xyz')
+if(!origins.length)origins.push('https://testnet-rpc.monad.xyz')
 const relay='wss://mm-sdk-relay.api.cx.metamask.io'
 const connect=[...new Set([...origins,relay])].join(' ')
 const csp=`default-src 'self'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; object-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self' ${connect}; font-src 'self'; media-src 'none'; worker-src 'self'; manifest-src 'self'`

@@ -16,7 +16,7 @@ export async function probeRpc(url:string):Promise<RpcHealth>{
   try{
     const [chainHex,blockHex]=await Promise.all([rpc(url,'eth_chainId',controller.signal),rpc(url,'eth_blockNumber',controller.signal)])
     const chainId=Number(BigInt(chainHex));const blockNumber=BigInt(blockHex)
-    return {url,host:host(url),ok:chainId===143,latencyMs:Math.round(performance.now()-start),chainId,blockNumber,checkedAt:Date.now(),error:chainId===143?undefined:`chain ${chainId}`}
+    return {url,host:host(url),ok:chainId===10143,latencyMs:Math.round(performance.now()-start),chainId,blockNumber,checkedAt:Date.now(),error:chainId===10143?undefined:`chain ${chainId}`}
   }catch(e){
     return {url,host:host(url),ok:false,latencyMs:Math.round(performance.now()-start),checkedAt:Date.now(),error:e instanceof Error?e.message:String(e)}
   }finally{clearTimeout(timer)}

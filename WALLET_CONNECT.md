@@ -12,9 +12,9 @@
 
 ## Monad network
 
-- Chain ID: `143` (`0x8f`)
+- Chain ID: `10143` (`0x279f`)
 - Native token: `MON`
-- Contract: `0xE25AaBa9CBCD0DF6e0b3659c66F1C022a4ED1cf6`
+- Contract: `0xd37956c44985c2154738425222376a9d63dcf0cb`
 - MetaMask Connect requests Monad scope and then calls its chain switch/add flow before any write.
 
 ## Security properties
@@ -34,7 +34,7 @@
 4. Test Chrome on Android/iOS without an injected provider; tap **MetaMask** and confirm MetaMask Mobile opens.
 5. Return to the browser and confirm the connected address is shown.
 6. Open the same public URL inside MetaMask Mobile's browser and connect there.
-7. Confirm the network is Monad Mainnet 143 before a write.
+7. Confirm the network is Monad Testnet 10143 before a write.
 8. Submit a very small V4 transaction and confirm the Transaction Center receives the same hash shown by MetaMask.
 9. Confirm PLAY/SELL/P2P state and Portfolio update from blockchain state/events, not from wallet-local optimistic state.
 10. Verify production response headers contain the generated CSP and HSTS values.

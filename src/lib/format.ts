@@ -51,7 +51,7 @@ export function errorText(e:unknown){
     [/NotP2PSeller|NotP2PBuyer/i,'The connected wallet is not the maker of this order.'],
     [/ZeroAmount/i,'Amount must be greater than 0.'],
     [/DirectMonTransferDisabled|DirectTokenTransferToContractDisabled/i,'The contract does not accept direct MON or METOK transfers; use the appropriate dApp function.'],
-    [/chain.*143|wrong chain|chain mismatch/i,'Your wallet is on the wrong network. Switch to Monad Mainnet (chain 143).'],
+    [/chain.*143|wrong chain|chain mismatch/i,'Your wallet is on the wrong network. Switch to Monad Testnet (chain 10143).'],
     [/Failed to fetch|fetch failed|network/i,'Unable to reach the RPC. The dApp will try fallback endpoints if configured.']
   ]
   for(const [re,msg] of rules) if(re.test(raw)) return msg

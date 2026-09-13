@@ -1,9 +1,9 @@
 # METOK V4 DApp Pro 5.1 — MetaMask Everywhere / Production Launch
 
-Non-custodial React/Vite frontend for the immutable METOK V4 contract on Monad Mainnet.
+Non-custodial React/Vite frontend for the immutable METOK contract on Monad Testnet.
 
-- Contract: `0xE25AaBa9CBCD0DF6e0b3659c66F1C022a4ED1cf6`
-- Chain: Monad Mainnet (`143` / `0x8f`)
+- Contract: `0xd37956c44985c2154738425222376a9d63dcf0cb`
+- Chain: Monad Testnet (`10143` / `0x279f`)
 - Native asset: `MON`
 - Contract rules: see `reference/METOK_V4.sol`
 
@@ -61,7 +61,7 @@ This prevents stale event data from being treated as an active position after an
 
 Every write path goes through `src/lib/write.ts`:
 
-1. force/switch wallet to chain 143;
+1. force/switch wallet to chain 10143;
 2. verify RPC chain ID;
 3. verify bytecode exists at the configured address;
 4. verify `owner() == address(0)`;

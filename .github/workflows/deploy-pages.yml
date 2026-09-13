@@ -1,4 +1,4 @@
-name: Deploy METOK to GitHub Pages
+name: Deploy METOK Testnet to GitHub Pages
 
 on:
   push:

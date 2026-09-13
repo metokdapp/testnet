@@ -9,15 +9,15 @@ import { QueueHead } from './QueueHead'
 export function Overview({p,address,onPlay}:{p?:ProtocolState,address?:Address,onPlay:()=>void}){
   const queue=p?p.nextCurve-p.nextSettle:0n
   const perf=['1H','1D','1W','1M','1Y']
-  const healthy=!!p?.hasCode&&p.ownerOk&&p.supplyOk&&p.bucketsOk&&p.solvent&&p.chainId===143
+  const healthy=!!p?.hasCode&&p.ownerOk&&p.supplyOk&&p.bucketsOk&&p.solvent&&p.chainId===10143
   return <>
     <div className="hero">
       <div className="hero-copy">
-        <Badge ok={healthy}>{healthy?'MAINNET HEALTHY':'Verifying runtime'}</Badge>
+        <Badge ok={healthy}>{healthy?'TESTNET HEALTHY':'Verifying runtime'}</Badge>
         <h1>Liquidity by math.<br/><em>Not by admins.</em></h1>
-        <p>METOK runs directly on Monad Mainnet with fixed supply, Pyth Entropy, FIFO curve execution, and two-sided P2P isolated from protocol reserves.</p>
+        <p>METOK runs directly on Monad Testnet with fixed supply, Pyth Entropy, FIFO curve execution, and two-sided P2P isolated from protocol reserves.</p>
         <div className="hero-actions"><Button onClick={onPlay}>PLAY METOK <span>↗</span></Button><a className="ghost-link" href={`${EXPLORER_URL}/address/${CONTRACT_ADDRESS}`} target="_blank" rel="noreferrer">View contract</a></div>
-        <div className="network-ribbon"><span><i className={p?.chainId===143?'on':''}/> Monad Mainnet</span><span>Block {p?.blockNumber?.toString()||'—'}</span><span>{p?.syncedAt?`sync ${new Date(p.syncedAt).toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit',second:'2-digit'})}`:'syncing…'}</span></div>
+        <div className="network-ribbon"><span><i className={p?.chainId===10143?'on':''}/> Monad Testnet</span><span>Block {p?.blockNumber?.toString()||'—'}</span><span>{p?.syncedAt?`sync ${new Date(p.syncedAt).toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit',second:'2-digit'})}`:'syncing…'}</span></div>
       </div>
       <Card className="price-orb">
         <Label>PROTOCOL PRICE</Label>

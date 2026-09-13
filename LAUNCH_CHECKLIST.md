@@ -7,14 +7,14 @@
 - [ ] Android/iOS Chrome/Safari without injection opens MetaMask Mobile through MetaMask Connect.
 - [ ] MetaMask Mobile in-app browser connects directly.
 - [ ] Desktop without extension shows the MetaMask Connect QR/install flow.
-- [ ] Chain switch/add lands on Monad Mainnet 143 (`0x8f`).
+- [ ] Chain switch/add lands on Monad Testnet 10143 (`0x279f`).
 - [ ] CSP in production allows `wss://mm-sdk-relay.api.cx.metamask.io`.
 - [ ] MetaMask Connect analytics remain disabled.
 - [ ] `@metamask/sdk` is not present in the dependency tree.
 
 ## 1. Freeze inputs
 
-- [ ] Confirm contract address `0xE25AaBa9CBCD0DF6e0b3659c66F1C022a4ED1cf6` on Monad Mainnet.
+- [ ] Confirm contract address `0xd37956c44985c2154738425222376a9d63dcf0cb` on Monad Testnet.
 - [ ] Confirm `owner() == address(0)`.
 - [ ] Confirm total supply = 100B METOK.
 - [ ] Confirm `tokenBucketsBalanced() == true` and `monAccountingSolvent() == true`.
@@ -47,7 +47,7 @@ npm run build
 
 Use a low-value wallet and small amounts.
 
-- [ ] Connect/switch to chain 143.
+- [ ] Connect/switch to chain 10143.
 - [ ] Security page shows all contract/accounting checks green.
 - [ ] RPC Health lists the intended endpoints, correct chain ID and current blocks.
 - [ ] PLAY shows live quote + separate Entropy fee; submit a tiny wager.
@@ -89,7 +89,7 @@ After deploy:
 
 - [ ] Production site loads with no CSP violations in console.
 - [ ] Contract link points to the pinned V4 address.
-- [ ] Wallet chain switch requests only chain 143.
+- [ ] Wallet chain switch requests only chain 10143.
 - [ ] RPC failure of endpoint #1 falls through to another configured endpoint.
 - [ ] Contract custom reverts appear as decoded user messages.
 - [ ] First Portfolio sync completes; second sync is incremental.
