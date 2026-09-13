@@ -1,6 +1,6 @@
 import { createPublicClient, defineChain, fallback, getAddress, http, isAddress } from 'viem'
 
-const DEFAULT_RPC = 'https://testnet-rpc.monad.xyz'
+const DEFAULT_RPC = 'https://testnet-rpc.monad.xyz,https://rpc.ankr.com/monad_testnet,https://monad-testnet.drpc.org'
 const configuredRpcUrls = (import.meta.env.VITE_RPC_URLS || import.meta.env.VITE_RPC_URL || DEFAULT_RPC)
   .split(',')
   .map((x:string)=>x.trim())

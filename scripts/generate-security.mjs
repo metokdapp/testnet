@@ -6,8 +6,8 @@ function parseEnv(file){
   try{return Object.fromEntries(fs.readFileSync(file,'utf8').split(/\r?\n/).map(x=>x.trim()).filter(x=>x&&!x.startsWith('#')&&x.includes('=')).map(x=>{const i=x.indexOf('=');return[x.slice(0,i),x.slice(i+1).replace(/^['"]|['"]$/g,'')]}))}catch{return{}}
 }
 const local={...parseEnv(path.join(root,'.env.example')),...parseEnv(path.join(root,'.env'))}
-const raw=process.env.VITE_RPC_URLS||process.env.VITE_RPC_URL||local.VITE_RPC_URLS||local.VITE_RPC_URL||'https://testnet-rpc.monad.xyz'
-const eventRaw=process.env.VITE_EVENT_RPC_URLS||local.VITE_EVENT_RPC_URLS||'https://testnet-rpc.monad.xyz'
+const raw=process.env.VITE_RPC_URLS||process.env.VITE_RPC_URL||local.VITE_RPC_URLS||local.VITE_RPC_URL||'https://testnet-rpc.monad.xyz,https://rpc.ankr.com/monad_testnet,https://monad-testnet.drpc.org'
+const eventRaw=process.env.VITE_EVENT_RPC_URLS||local.VITE_EVENT_RPC_URLS||'https://testnet-rpc.monad.xyz,https://rpc.ankr.com/monad_testnet,https://monad-testnet.drpc.org'
 const origins=[]
 for(const item of `${raw},${eventRaw}`.split(',').map(x=>x.trim()).filter(Boolean)){
   try{const u=new URL(item);if(u.protocol==='https:'||u.protocol==='http:')origins.push(u.origin)}catch{}
