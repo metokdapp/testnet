@@ -43,7 +43,7 @@ const topic2WalletNames=[
 const topic1WalletNames=['MonCreditCreated','MonWithdrawn']
 const topic3WalletNames=['P2PSellOrderFilled','P2PBuyOrderFilled']
 const REORG_BUFFER=256n
-const DEPLOY_BLOCK_ENV=(import.meta.env.VITE_DEPLOYMENT_BLOCK||'').trim()
+const DEPLOY_BLOCK_ENV=(import.meta.env.VITE_DEPLOYMENT_BLOCK||'61810876').trim()
 const EVENT_RPC_URLS:string[]=Array.from(new Set<string>(
   (import.meta.env.VITE_EVENT_RPC_URLS||'https://testnet-rpc.monad.xyz,https://rpc.ankr.com/monad_testnet,https://monad-testnet.drpc.org')
     .split(',')
