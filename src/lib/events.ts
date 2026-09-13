@@ -238,16 +238,25 @@ export async function syncWalletEvents(address:Address,deployedAt:bigint,onProgr
   return merged
 }
 
-export async function loadRecentProtocolEvents(_blockWindow=500_000n,onProgress?: (p:EventSyncProgress)=>void):Promise<ChainEvent[]>{
+export async function loadRecentProtocolEvents(_blockWindow?:bigint,onProgress?: (p:EventSyncProgress)=>void):Promise<ChainEvent[]>{
   const latest=await publicClient.getBlockNumber()
-  const from=BigInt(DEPLOY_BLOCK_ENV || '61810876')
-  onProgress?.({phase:'logs',from,to:latest,current:from,message:`Loading METOK contract events ${from.toString()} → ${latest.toString()}`})
-  try{
-    const logs=await rawGetLogs(from,latest,[allTopics])
-    return dedupe(logs.map(decodeRaw).filter((x):x is ChainEvent=>!!x))
-  }catch{
-    return scanAdaptive(from,latest,[allTopics],onProgress)
-  }
+  const from=latest>=99n?latest-99n:0n
+
+  onProgress?.({
+    phase:'logs',
+    from,
+    to:latest,
+    current:from,
+    message:`Loading recent METOK transactions`
+  })
+
+  const logs=await rawGetLogs(from,latest,[allTopics])
+
+  return dedupe(
+    logs
+      .map(decodeRaw)
+      .filter((x):x is ChainEvent=>!!x)
+  )
 }
 
 const blockTimeKey=()=>`metok:v5:block-times:${CONTRACT_ADDRESS||'none'}`
