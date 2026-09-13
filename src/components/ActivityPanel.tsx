@@ -13,7 +13,7 @@ export function ActivityPanel({p,address}:{p?:ProtocolState,address?:Address}){
     setLoading(true);setMsg('')
     try{
       const onProgress=(x:EventSyncProgress)=>setProgress(x.message)
-      const rows=mode==='mine'?await syncWalletEvents(address!,p!.deployedAt,onProgress):await loadRecentProtocolEvents(500_000n,onProgress)
+      const rows=mode==='mine'?await syncWalletEvents(address!,p!.deployedAt,onProgress):await loadRecentProtocolEvents(undefined,onProgress)
       setEvents(await hydrateEventTimestamps(rows,120,onProgress));setProgress('')
     }catch(e){setMsg(errorText(e));setProgress('')}finally{setLoading(false)}
   },[mode,address,p?.deployedAt])
@@ -21,13 +21,13 @@ export function ActivityPanel({p,address}:{p?:ProtocolState,address?:Address}){
   const filtered=useMemo(()=>events.filter(e=>type==='all'||group(e.name)===type).slice(0,150),[events,type])
   return <div className="event-page">
     <Card><div className="section-head"><div><Label>ON-CHAIN EVENT INDEX</Label><h2>PLAY · SELL · P2P history</h2></div><Badge ok={!loading}>{loading?'Syncing':'RPC logs'}</Badge></div>
-      <p className="muted">Data comes directly from contract event logs. “My wallet” syncs from the deployment block and caches checkpoints; “Protocol recent” scans only the latest block window to avoid loading the entire protocol history.</p>
+      <p className="muted">Data comes directly from contract event logs. “My wallet” syncs from the deployment block and caches checkpoints; “Protocol recent” loads contract-filtered METOK events directly from the deployment block.</p>
       <div className="event-toolbar"><div className="segmented"><button className={mode==='mine'?'active':''} onClick={()=>setMode('mine')}>My wallet</button><button className={mode==='protocol'?'active':''} onClick={()=>setMode('protocol')}>Protocol recent</button></div><Button className="secondary" onClick={()=>void load()} disabled={loading}>{loading?<><Spinner/> Sync</>:'Refresh'}</Button></div>
       <div className="filter-chips">{(['all','play','sell','p2p'] as const).map(x=><button key={x} className={type===x?'active':''} onClick={()=>setType(x)}>{x==='all'?'All':x.toUpperCase()}</button>)}</div>
       {progress&&<div className="sync-banner"><Spinner/>{progress}</div>}{msg&&<div className="notice">{msg}</div>}
       {!address&&mode==='mine'&&<div className="empty">Connect your wallet to view all events related to your address.</div>}
       <div className="chain-event-list">{address||mode==='protocol'?(!filtered.length&&!loading&&<div className="empty">No events found in the scanned range.</div>):null}{filtered.map(e=><EventRow e={e} key={e.id}/>)}</div>
-      <div className="event-foot"><span>{filtered.length} events displayed</span><span>{mode==='mine'?'All-time wallet index':'Recent 500,000 blocks'}</span></div>
+      <div className="event-foot"><span>{filtered.length} events displayed</span><span>{mode==='mine'?'All-time wallet index':'Contract events since deployment'}</span></div>
     </Card>
   </div>
 }
