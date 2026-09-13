@@ -204,11 +204,36 @@ export async function syncWalletEvents(address:Address,deployedAt:bigint,onProgr
   const rewind=cached&&cached.syncedTo>REORG_BUFFER?cached.syncedTo-REORG_BUFFER:deployBlock
   const from=rewind>deployBlock?rewind:deployBlock
   const wt=walletTopic(address)
-  const topic1=await scanAdaptive(from,latest,[topic1WalletNames.map(topic),wt],onProgress)
-  const topic2=await scanAdaptive(from,latest,[topic2WalletNames.map(topic),null,wt],onProgress)
-  const topic3=await scanAdaptive(from,latest,[topic3WalletNames.map(topic),null,null,wt],onProgress)
+
+  onProgress?.({
+    phase:'logs',
+    from,
+    to:latest,
+    current:from,
+    message:`Loading wallet events ${from.toString()} → ${latest.toString()}`
+  })
+
+  let fresh:ChainEvent[]
+
+  try{
+    const a=await rawGetLogs(from,latest,[topic1WalletNames.map(topic),wt])
+    const b=await rawGetLogs(from,latest,[topic2WalletNames.map(topic),null,wt])
+    const c=await rawGetLogs(from,latest,[topic3WalletNames.map(topic),null,null,wt])
+
+    fresh=dedupe(
+      [...a,...b,...c]
+        .map(decodeRaw)
+        .filter((x):x is ChainEvent=>!!x)
+    )
+  }catch{
+    const a=await scanAdaptive(from,latest,[topic1WalletNames.map(topic),wt],onProgress)
+    const b=await scanAdaptive(from,latest,[topic2WalletNames.map(topic),null,wt],onProgress)
+    const c=await scanAdaptive(from,latest,[topic3WalletNames.map(topic),null,null,wt],onProgress)
+    fresh=dedupe([...a,...b,...c])
+  }
+
   const kept=(cached?.events||[]).filter(e=>e.blockNumber<from)
-  const merged=dedupe([...kept,...topic1,...topic2,...topic3])
+  const merged=dedupe([...kept,...fresh])
   saveWalletCache(address,latest,deployBlock,merged)
   return merged
 }
